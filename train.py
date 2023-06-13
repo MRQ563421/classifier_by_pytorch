@@ -121,8 +121,8 @@ class Fully_CNN(nn.Module):
 if __name__ == '__main__':
 
 # a.初始化参数batchsize epoch 和类别数
-    BATCH_SIZE = 32
-    EPOCH = 200
+    BATCH_SIZE = 8
+    EPOCH = 20
     CLASS_NUM = 2
     best_acc = 0  # 记录最好的模型以便输出
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")   # 设备
@@ -184,10 +184,10 @@ if __name__ == '__main__':
     )
     # 数据生成器的定义
     train_generator = torchvision.datasets.ImageFolder('D:/pythonProject1/Mydataset1/train', transform=trans1_1)
-    train_generator = torch.utils.data.DataLoader(train_generator, BATCH_SIZE, shuffle=True, num_workers=4)
+    train_generator = torch.utils.data.DataLoader(train_generator, BATCH_SIZE, shuffle=True)
 
     test_generator = torchvision.datasets.ImageFolder('D:\\pythonProject1\\Mydataset1\\val', transform=trans1_2)
-    test_generator = torch.utils.data.DataLoader(test_generator, BATCH_SIZE, shuffle=False, num_workers=4)
+    test_generator = torch.utils.data.DataLoader(test_generator, BATCH_SIZE, shuffle=False)
 
 
 # c.搭建神经网络
@@ -218,9 +218,11 @@ if __name__ == '__main__':
         train_cm = Confusion_Matrix(CLASS_NUM)
         train_loss = []
 
-        for data in train_generator:
-            imgs, target = data
-
+        print(1111)
+        # for data in train_generator:
+        #     imgs, target = data
+        for imgs, target in train_generator:
+            print(222)
             pred = module1_2(imgs)
             # 计算损失函数-交叉熵
             loss = loss_fn(pred, target)
